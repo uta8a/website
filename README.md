@@ -32,6 +32,7 @@
 │   ├── chotto.uta8a.net/
 │   └── generated.uta8a.net/
 ├── scripts/
+│   ├── dev-all.ts
 │   ├── inotify-sync.ts
 │   └── init-content.ts
 ├── site/
@@ -75,9 +76,21 @@ changelog:
 - `docs/sync-spec.md`: 同期ツール仕様
 - `content/` 配下のサンプル記事Markdown
 
-## 次の実装対象（TODO）
+## 実装済み（初期フェーズ）
 
 - `mise.toml` の作成とタスク定義
 - `scripts/init-content.ts` の実装
 - `scripts/inotify-sync.ts` の実装
-- `site/` 配下のAstro雛形作成
+- `scripts/dev-all.ts` の実装（landing page + 全サイトdev起動）
+- `site/` 配下3サイトのAstro雛形作成
+
+## 開発コマンド
+
+- 全サイト + 同期watch + landing page:
+  - `mise run dev:all`
+- landing page:
+  - `http://127.0.0.1:4300`
+- 各サイト:
+  - `http://127.0.0.1:4321` (`uta8a.net`)
+  - `http://127.0.0.1:4322` (`chotto.uta8a.net`)
+  - `http://127.0.0.1:4323` (`generated.uta8a.net`)

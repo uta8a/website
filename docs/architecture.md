@@ -20,6 +20,7 @@
 
 - `init-content.ts`: 記事テンプレート・frontmatter雛形を生成
 - `inotify-sync.ts`: `content/` の変更を検知し、`site/` 向けに変換・配置
+- `dev-all.ts`: `sync:watch` と3サイトのdevサーバを起動し、ローカルlanding pageを提供
 - プレビュー機能は持たず、同期のみ担当
 
 ### 3) site/
