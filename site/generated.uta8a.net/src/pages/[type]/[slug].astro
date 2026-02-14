@@ -15,10 +15,21 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const [, slug] = post.slug.split("/");
+const ogImage = slug ? `/posts/${slug}/${post.data.ogp}` : undefined;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout title={post.data.title} description={post.data.description} ogImage={ogImage} ogType="article">
   <h1>{post.data.title}</h1>
   <p class="meta">type: {post.data.type}</p>
+  <p class="meta">
+    tags:
+    {post.data.tag.map((tag, i) => (
+      <>
+        {i > 0 ? ", " : " "}
+        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
+      </>
+    ))}
+  </p>
   <Content />
 </BaseLayout>

@@ -10,6 +10,9 @@ const posts = (await getCollection("posts"))
 <BaseLayout title="Posts" description="Post list">
   <h1>Posts</h1>
   <p class="meta">Synced from <code>content/</code>.</p>
+  <p>
+    <a href="/tags/">Tags</a> | <a href="/rss.xml">RSS</a>
+  </p>
   <ul>
     {posts.map((post) => (
       <li>

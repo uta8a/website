@@ -2,12 +2,19 @@
 export interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
 }
 
 const {
   title = "uta8a.net",
   description = "uta8a.net",
+  ogImage,
+  ogType = "website",
 } = Astro.props;
+
+const currentUrl = Astro.url?.toString();
+const resolvedOgImage = ogImage && Astro.url ? new URL(ogImage, Astro.url).toString() : undefined;
 ---
 
 <!doctype html>
@@ -17,6 +24,20 @@ const {
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {currentUrl && <link rel="canonical" href={currentUrl} />}
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="uta8a.net" />
+    {currentUrl && <meta property="og:url" content={currentUrl} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+
+    <meta name="twitter:card" content={resolvedOgImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
+
     <style>
       :root {
         font-family: sans-serif;
