@@ -94,3 +94,11 @@ changelog:
   - `http://127.0.0.1:4321` (`uta8a.net`)
   - `http://127.0.0.1:4322` (`chotto.uta8a.net`)
   - `http://127.0.0.1:4323` (`generated.uta8a.net`)
+
+## init-content の使い方
+
+- ヘルプ表示（必須引数不要）:
+  - `mise run init-content -- --help`
+  - `mise run init-content -- -h`
+- 記事作成:
+  - `mise run init-content -- --domain chotto.uta8a.net --slug 2026-02-15-my-post --type note --title "My Post"`

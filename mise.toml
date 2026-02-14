@@ -2,6 +2,8 @@
 deno = "2.6.9"
 pnpm = "10.29.3"
 
+## task runner: `mise tasks` で一覧表示できる
+
 [tasks.sync]
 run = "deno run -A scripts/inotify-sync.ts"
 
@@ -9,7 +11,11 @@ run = "deno run -A scripts/inotify-sync.ts"
 run = "deno run -A scripts/inotify-sync.ts --watch"
 
 [tasks."init-content"]
+description = "新規記事のテンプレートを生成する ($ mise run init-content -- --help でオプション確認)"
 run = "deno run -A scripts/init-content.ts"
+
+[tasks."test:scripts"]
+run = "deno test scripts/init-content_test.ts scripts/inotify-sync_test.ts"
 
 [tasks."dev:uta8a.net"]
 run = "pnpm --dir site/uta8a.net dev"
