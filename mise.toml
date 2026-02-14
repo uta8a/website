@@ -1,0 +1,24 @@
+[tools]
+deno = "2.6.9"
+pnpm = "10.29.3"
+
+[tasks.sync]
+run = "deno run -A scripts/inotify-sync.ts"
+
+[tasks."sync:watch"]
+run = "deno run -A scripts/inotify-sync.ts --watch"
+
+[tasks."init-content"]
+run = "deno run -A scripts/init-content.ts"
+
+[tasks."dev:uta8a.net"]
+run = "pnpm --dir site/uta8a.net dev"
+
+[tasks."dev:chotto.uta8a.net"]
+run = "pnpm --dir site/chotto.uta8a.net dev"
+
+[tasks."dev:generated.uta8a.net"]
+run = "pnpm --dir site/generated.uta8a.net dev"
+
+[tasks."dev:all"]
+run = "deno run -A scripts/dev-all.ts"

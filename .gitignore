@@ -1,0 +1,6 @@
+node_modules
+.pnpm-store
+site/*/dist
+site/*/.astro
+site/*/src/content/posts
+site/*/public/posts
