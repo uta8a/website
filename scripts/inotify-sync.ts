@@ -1,14 +1,12 @@
 #!/usr/bin/env -S deno run -A
-const DOMAIN_LIST = ["uta8a.net", "chotto.uta8a.net", "generated.uta8a.net"] as const;
+export const DOMAIN_LIST = ["uta8a.net", "chotto.uta8a.net", "generated.uta8a.net"] as const;
 const REQUIRED_KEYS = ["type", "title", "draft", "description", "ogp", "tag", "changelog"] as const;
 
 const rootDir = Deno.cwd();
 const contentRoot = `${rootDir}/content`;
 const siteRoot = `${rootDir}/site`;
 
-const watchMode = Deno.args.includes("--watch");
-
-function splitFrontmatter(markdown: string): { frontmatter: string; body: string } {
+export function splitFrontmatter(markdown: string): { frontmatter: string; body: string } {
   const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) {
     throw new Error("frontmatter block is missing");
@@ -16,7 +14,7 @@ function splitFrontmatter(markdown: string): { frontmatter: string; body: string
   return { frontmatter: match[1], body: match[2] };
 }
 
-function rewriteLocalAssetPaths(markdown: string, slug: string): string {
+export function rewriteLocalAssetPaths(markdown: string, slug: string): string {
   const { frontmatter, body } = splitFrontmatter(markdown);
   const base = `/posts/${slug}/`;
 
@@ -36,7 +34,7 @@ function rewriteLocalAssetPaths(markdown: string, slug: string): string {
   return `---\n${frontmatter}\n---\n\n${rewritten}`;
 }
 
-function validateFrontmatter(markdown: string, sourcePath: string): void {
+export function validateFrontmatter(markdown: string, sourcePath: string): void {
   const { frontmatter } = splitFrontmatter(markdown);
   for (const key of REQUIRED_KEYS) {
     if (!new RegExp(`^${key}:`, "m").test(frontmatter)) {
@@ -55,7 +53,7 @@ function validateFrontmatter(markdown: string, sourcePath: string): void {
   }
 }
 
-function extractType(markdown: string, sourcePath: string): string {
+export function extractType(markdown: string, sourcePath: string): string {
   const { frontmatter } = splitFrontmatter(markdown);
   const match = frontmatter.match(/^type:\s*["']?([^"'\n]+)["']?\s*$/m);
   if (!match || !match[1]) {
@@ -171,7 +169,7 @@ async function syncDomain(domain: (typeof DOMAIN_LIST)[number]): Promise<{ ok: n
   return { ok, failed };
 }
 
-async function runSync(): Promise<number> {
+export async function runSync(): Promise<number> {
   let totalOk = 0;
   let totalFailed = 0;
 
@@ -191,34 +189,45 @@ async function runSync(): Promise<number> {
   return totalFailed === 0 ? 0 : 1;
 }
 
-if (!watchMode) {
-  Deno.exit(await runSync());
-}
+async function runWatch(): Promise<void> {
+  let running = false;
+  let queued = false;
 
-let running = false;
-let queued = false;
+  async function trigger(): Promise<void> {
+    if (running) {
+      queued = true;
+      return;
+    }
+    running = true;
+    const code = await runSync();
+    if (code !== 0) {
+      console.error("sync completed with validation errors");
+    }
+    running = false;
+    if (queued) {
+      queued = false;
+      await trigger();
+    }
+  }
 
-async function trigger(): Promise<void> {
-  if (running) {
-    queued = true;
-    return;
-  }
-  running = true;
-  const code = await runSync();
-  if (code !== 0) {
-    console.error("sync completed with validation errors");
-  }
-  running = false;
-  if (queued) {
-    queued = false;
+  await trigger();
+  console.log("watching content directory...");
+
+  const watcher = Deno.watchFs(contentRoot, { recursive: true });
+  for await (const _event of watcher) {
     await trigger();
   }
 }
 
-await trigger();
-console.log("watching content directory...");
+export async function main(args: string[]): Promise<number> {
+  const watchMode = args.includes("--watch");
+  if (!watchMode) {
+    return await runSync();
+  }
+  await runWatch();
+  return 0;
+}
 
-const watcher = Deno.watchFs(contentRoot, { recursive: true });
-for await (const _event of watcher) {
-  await trigger();
+if (import.meta.main) {
+  Deno.exit(await main(Deno.args));
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S deno run -A
-type Args = {
+export type Args = {
   domain: string;
   slug: string;
   type: string;
@@ -10,8 +10,32 @@ type Args = {
 };
 
 const rootDir = Deno.cwd();
+export const HELP_TEXT = `init-content
 
-function parseArgs(raw: string[]): Args {
+Usage:
+  deno run -A scripts/init-content.ts --help
+  deno run -A scripts/init-content.ts -h
+  deno run -A scripts/init-content.ts --domain <domain> --slug <slug> [options]
+
+Required:
+  (help表示時は不要)
+  --domain        target domain (e.g. chotto.uta8a.net)
+  --slug          article slug (e.g. 2026-02-15-my-post)
+
+Options:
+  --type          article type (default: note)
+  --title         title (default: New Article)
+  --description   description (default: empty)
+  --draft         true|false (default: false)
+  --tags          comma-separated tags (default: type)
+  --help, -h      show this help
+`;
+
+export function wantsHelp(raw: string[]): boolean {
+  return raw.includes("--help") || raw.includes("-h");
+}
+
+export function parseArgs(raw: string[]): Args {
   const map = new Map<string, string>();
   for (let i = 0; i < raw.length; i += 1) {
     const token = raw[i];
@@ -39,7 +63,7 @@ function parseArgs(raw: string[]): Args {
   return { domain, slug, type, title, description, draft, tags };
 }
 
-function renderTemplate(args: Args): string {
+export function renderTemplate(args: Args): string {
   const now = new Date().toISOString();
   const tagLines = args.tags.length > 0 ? args.tags.map((t) => `  - \"${t}\"`).join("\n") : "  - \"note\"";
 
@@ -61,6 +85,10 @@ Write your content here.
 }
 
 async function main(): Promise<void> {
+  if (wantsHelp(Deno.args)) {
+    console.log(HELP_TEXT);
+    return;
+  }
   const args = parseArgs(Deno.args);
   const articleDir = `${rootDir}/content/${args.domain}/${args.slug}`;
   const readmePath = `${articleDir}/README.md`;
@@ -81,5 +109,10 @@ async function main(): Promise<void> {
 }
 
 if (import.meta.main) {
-  await main();
+  try {
+    await main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : error);
+    Deno.exit(1);
+  }
 }
