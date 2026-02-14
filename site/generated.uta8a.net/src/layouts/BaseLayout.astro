@@ -1,0 +1,45 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "generated.uta8a.net",
+  description = "generated.uta8a.net",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <style>
+      :root {
+        font-family: sans-serif;
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        padding: 2rem;
+        max-width: 800px;
+        line-height: 1.7;
+      }
+
+      a {
+        color: #0d63a5;
+      }
+
+      .meta {
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

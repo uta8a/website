@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.slug.localeCompare(a.slug));
+---
+
+<BaseLayout title="Posts" description="Post list">
+  <h1>Posts</h1>
+  <p class="meta">Synced from <code>content/</code>.</p>
+  <ul>
+    {posts.map((post) => (
+      <li>
+        <a href={`/${post.slug}/`}>{post.data.title}</a>
+        <div class="meta">{post.slug}</div>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
