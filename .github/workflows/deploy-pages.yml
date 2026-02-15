@@ -1,0 +1,68 @@
+name: Deploy Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      UTA8A_PROJECT_NAME: ${{ vars.CF_PAGES_PROJECT_UTA8A_NET || 'uta8a-net' }}
+      CHOTTO_PROJECT_NAME: ${{ vars.CF_PAGES_PROJECT_CHOTTO_UTA8A_NET || 'chotto-uta8a-net' }}
+      GENERATED_PROJECT_NAME: ${{ vars.CF_PAGES_PROJECT_GENERATED_UTA8A_NET || 'generated-uta8a-net' }}
+    environment:
+      name: deploy-production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup mise
+        uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # v3.6.1
+        with:
+          install: true
+          cache: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync content into site projects
+        run: mise run sync
+
+      - name: Build all sites
+        run: |
+          pnpm --dir site/uta8a.net build
+          pnpm --dir site/chotto.uta8a.net build
+          pnpm --dir site/generated.uta8a.net build
+
+      - name: Deploy uta8a.net
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site/uta8a.net/dist --project-name=${{ env.UTA8A_PROJECT_NAME }}
+
+      - name: Deploy chotto.uta8a.net
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site/chotto.uta8a.net/dist --project-name=${{ env.CHOTTO_PROJECT_NAME }}
+
+      - name: Deploy generated.uta8a.net
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site/generated.uta8a.net/dist --project-name=${{ env.GENERATED_PROJECT_NAME }}
