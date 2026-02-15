@@ -5,9 +5,9 @@
 
 ## 対象サイト
 
-- `uta8a.net`
-- `chotto.uta8a.net`
-- `generated.uta8a.net`
+- [`uta8a.net`](https://uta8a.net)
+- [`chotto.uta8a.net`](https://chotto.uta8a.net)
+- [`generated.uta8a.net`](https://generated.uta8a.net)
 
 ## 設計方針
 
