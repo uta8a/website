@@ -2,6 +2,11 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
+const toChangelogDate = (date?: string): number => {
+  const value = Date.parse(date ?? "");
+  return Number.isNaN(value) ? 0 : value;
+};
+
 export async function getStaticPaths() {
   const posts = (await getCollection("posts")).filter((post) => !post.data.draft);
   const tags = new Set<string>();
@@ -14,7 +19,12 @@ export async function getStaticPaths() {
 
   return [...tags].map((tag) => ({
     params: { tag: encodeURIComponent(tag) },
-    props: { tag, posts: posts.filter((post) => post.data.tag.includes(tag)) },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => post.data.tag.includes(tag))
+        .sort((a, b) => toChangelogDate(b.data.changelog[0]?.date) - toChangelogDate(a.data.changelog[0]?.date)),
+    },
   }));
 }
 

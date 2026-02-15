@@ -1,4 +1,6 @@
 #!/usr/bin/env -S deno run -A
+import { getNowIso } from "./changelog-object.ts";
+
 export type Args = {
   domain: string;
   slug: string;
@@ -7,6 +9,7 @@ export type Args = {
   description: string;
   draft: boolean;
   tags: string[];
+  timezone: string;
 };
 
 const rootDir = Deno.cwd();
@@ -28,6 +31,7 @@ Options:
   --description   description (default: empty)
   --draft         true|false (default: false)
   --tags          comma-separated tags (default: type)
+  --timezone      IANA timezone (default: Asia/Tokyo)
   --help, -h      show this help
 `;
 
@@ -56,15 +60,16 @@ export function parseArgs(raw: string[]): Args {
   const description = map.get("description") ?? "";
   const draft = (map.get("draft") ?? "false") === "true";
   const tags = (map.get("tags") ?? type).split(",").map((v) => v.trim()).filter(Boolean);
+  const timezone = map.get("timezone") ?? "Asia/Tokyo";
 
   if (!domain) throw new Error("--domain is required");
   if (!slug) throw new Error("--slug is required");
 
-  return { domain, slug, type, title, description, draft, tags };
+  return { domain, slug, type, title, description, draft, tags, timezone };
 }
 
 export function renderTemplate(args: Args): string {
-  const now = new Date().toISOString();
+  const now = getNowIso(args.timezone);
   const tagLines = args.tags.length > 0 ? args.tags.map((t) => `  - \"${t}\"`).join("\n") : "  - \"note\"";
 
   return `---

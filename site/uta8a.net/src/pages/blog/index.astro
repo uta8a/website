@@ -2,9 +2,14 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
+const toChangelogDate = (date?: string): number => {
+  const value = Date.parse(date ?? "");
+  return Number.isNaN(value) ? 0 : value;
+};
+
 const blogPosts = (await getCollection("posts"))
   .filter((post) => !post.data.draft && post.data.type === "blog")
-  .sort((a, b) => b.slug.localeCompare(a.slug));
+  .sort((a, b) => toChangelogDate(b.data.changelog[0]?.date) - toChangelogDate(a.data.changelog[0]?.date));
 
 const dateFromSlug = (slug: string): { iso: string; label: string } => {
   const [, rawSlug] = slug.split("/");

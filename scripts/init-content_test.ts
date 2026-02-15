@@ -26,6 +26,7 @@ Deno.test("parseArgs parses required and optional args", () => {
   assertEquals(args.description, "Desc");
   assertEquals(args.draft, true);
   assertEquals(args.tags, ["a", "b"]);
+  assertEquals(args.timezone, "Asia/Tokyo");
 });
 
 Deno.test("parseArgs throws for missing required args", () => {
@@ -47,10 +48,12 @@ Deno.test("renderTemplate includes frontmatter and body", () => {
     description: "Description",
     draft: false,
     tags: ["note"],
+    timezone: "Asia/Tokyo",
   });
 
   assertStringIncludes(out, 'type: "note"');
   assertStringIncludes(out, 'title: "Title"');
   assertStringIncludes(out, "draft: false");
+  assertStringIncludes(out, "[Asia/Tokyo]");
   assertStringIncludes(out, "Write your content here.");
 });
