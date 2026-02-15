@@ -21,30 +21,42 @@ const toDateText = (slug: string): string => {
 
 <BaseLayout title="chotto" description="small daily posts">
   <header class="heading">
-    <h1>chotto</h1>
-    <p class="meta">短い記事を高密度で一覧できるようにしています。</p>
+    <h1>ちょっと</h1>
+    <p class="meta">短く、気軽に、楽しく記録。</p>
     <nav aria-label="Primary">
-      <p class="nav"><a href="/tags/">Tags</a> <span aria-hidden="true">/</span> <a href="/rss.xml">RSS</a></p>
+      <p class="nav">
+        <a href="/tags/">Tags</a>
+        <span aria-hidden="true">/</span>
+        <a href="/rss.xml">RSS</a>
+      </p>
     </nav>
   </header>
 
   <section aria-labelledby="post-list-heading">
     <h2 id="post-list-heading" class="visually-hidden">Post list</h2>
     <ul class="post-list">
-      {posts.map((post) => {
-        const dateText = toDateText(post.slug);
-        return (
-          <li class="row">
-            <time class="date" datetime={dateText}>{dateText || "---- -- --"}</time>
-            <a class="title" href={`/${post.slug}/`}>{post.data.title}</a>
-            <ul class="tags" aria-label="Tags">
-              {post.data.tag.map((tag) => (
-                <li><a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a></li>
-              ))}
-            </ul>
-          </li>
-        );
-      })}
+      {
+        posts.map((post) => {
+          const dateText = toDateText(post.slug);
+          return (
+            <li class="row">
+              <time class="date" datetime={dateText}>
+                {dateText || "---- -- --"}
+              </time>
+              <a class="title" href={`/${post.slug}/`}>
+                {post.data.title}
+              </a>
+              <ul class="tags" aria-label="Tags">
+                {post.data.tag.map((tag) => (
+                  <li>
+                    <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        })
+      }
     </ul>
   </section>
 </BaseLayout>

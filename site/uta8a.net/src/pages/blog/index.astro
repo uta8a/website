@@ -27,7 +27,7 @@ const dateFromSlug = (slug: string): { iso: string; label: string } => {
   <header class="hero">
     <p class="eyebrow">UTA8A.NET</p>
     <h1>Blog</h1>
-    <p class="lead">Notes on engineering, tooling, and web craftsmanship.</p>
+    <p class="lead">Notes on engineering, automation, and systems.</p>
   </header>
 
   <nav aria-label="Blog utilities">
@@ -39,19 +39,27 @@ const dateFromSlug = (slug: string): { iso: string; label: string } => {
   <section class="list" aria-labelledby="blog-list-heading">
     <h2 id="blog-list-heading" class="visually-hidden">Blog posts</h2>
     <ul class="cards">
-      {blogPosts.map((post) => {
-        const date = dateFromSlug(post.slug);
-        return (
-          <li>
-            <article class="card">
-              <time class="meta date" datetime={date.iso}>{date.label}</time>
-              <h3><a href={`/${post.slug}/`}>{post.data.title}</a></h3>
-              <p class="summary">{post.data.description}</p>
-              <p class="meta tags">{post.data.tag.map((tag) => `#${tag}`).join(" ")}</p>
-            </article>
-          </li>
-        );
-      })}
+      {
+        blogPosts.map((post) => {
+          const date = dateFromSlug(post.slug);
+          return (
+            <li>
+              <article class="card">
+                <time class="meta date" datetime={date.iso}>
+                  {date.label}
+                </time>
+                <h3>
+                  <a href={`/${post.slug}/`}>{post.data.title}</a>
+                </h3>
+                <p class="summary">{post.data.description}</p>
+                <p class="meta tags">
+                  {post.data.tag.map((tag) => `#${tag}`).join(" ")}
+                </p>
+              </article>
+            </li>
+          );
+        })
+      }
     </ul>
   </section>
 </BaseLayout>
