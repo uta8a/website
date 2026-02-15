@@ -1,24 +1,15 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const posts = (await getCollection("posts"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.slug.localeCompare(a.slug));
 ---
 
-<BaseLayout title="Posts" description="Post list">
-  <h1>Posts</h1>
-  <p class="meta">Synced from <code>content/</code>.</p>
-  <p>
-    <a href="/tags/">Tags</a> | <a href="/rss.xml">RSS</a>
-  </p>
+<BaseLayout title="uta8a.net" description="portfolio">
+  <h1>uta8a</h1>
+  <p>Software engineer. Building tools and websites.</p>
+
+  <h2>Links</h2>
   <ul>
-    {posts.map((post) => (
-      <li>
-        <a href={`/${post.slug}/`}>{post.data.title}</a>
-        <div class="meta">{post.slug}</div>
-      </li>
-    ))}
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="https://github.com/uta8a">GitHub</a></li>
   </ul>
 </BaseLayout>

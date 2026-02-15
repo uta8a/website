@@ -20,16 +20,96 @@ const ogImage = slug ? `/posts/${slug}/${post.data.ogp}` : undefined;
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} ogImage={ogImage} ogType="article">
-  <h1>{post.data.title}</h1>
-  <p class="meta">type: {post.data.type}</p>
-  <p class="meta">
-    tags:
-    {post.data.tag.map((tag, i) => (
-      <>
-        {i > 0 ? ", " : " "}
-        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
-      </>
-    ))}
-  </p>
-  <Content />
+  <article aria-labelledby="post-title">
+    <header>
+      <h1 id="post-title">{post.data.title}</h1>
+      <p class="meta">{post.data.description}</p>
+    </header>
+
+    <div class="content" aria-label="Article body">
+      <Content />
+    </div>
+
+    <details class="meta-box">
+      <summary>Editing history</summary>
+      <h2 class="visually-hidden">Changelog</h2>
+      <ul aria-label="Changelog entries">
+        {post.data.changelog.map((item) => (
+          <li>
+            <strong>{item.summary}</strong>
+            <time class="meta" datetime={item.date}>{item.date}</time>
+          </li>
+        ))}
+      </ul>
+      <p>
+        Contact: <a href="https://uta8a.net/contact" aria-label="Contact page on uta8a.net">uta8a.net/contact</a>
+      </p>
+    </details>
+  </article>
 </BaseLayout>
+
+<style>
+  article {
+    max-width: 780px;
+    margin-inline: auto;
+    padding: 2.4rem 0 3.2rem;
+    padding-inline: clamp(0.25rem, 2.5vw, 1.2rem);
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5.2vw, 3.7rem);
+    line-height: 1.1;
+    margin: 0 0 0.8rem;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  .meta {
+    font-size: 0.92rem;
+  }
+
+  .content {
+    margin-top: 1.9rem;
+    background: #fbfbf9;
+    border: 1px solid #e5e5df;
+    border-radius: 12px;
+    padding: 1.25rem 1.25rem 1.35rem;
+  }
+
+  .content :global(p) {
+    margin: 0 0 1.1rem;
+  }
+
+  .content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .meta-box {
+    margin-top: 1.4rem;
+    padding: 0.8rem 1rem;
+    background: #f2f2ee;
+    border: 1px solid #dbdbd6;
+    border-radius: 10px;
+  }
+
+  .meta-box summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .meta-box ul {
+    margin: 0.8rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  @media (max-width: 640px) {
+    article {
+      padding-top: 1.4rem;
+      padding-inline: 0;
+    }
+
+    .content {
+      padding: 0.9rem 0.85rem 1rem;
+    }
+  }
+</style>

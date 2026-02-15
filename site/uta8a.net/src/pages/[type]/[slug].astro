@@ -15,21 +15,82 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const [, slug] = post.slug.split("/");
+const [type, slug] = post.slug.split("/");
 const ogImage = slug ? `/posts/${slug}/${post.data.ogp}` : undefined;
+const isBlog = type === "blog";
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} ogImage={ogImage} ogType="article">
-  <h1>{post.data.title}</h1>
-  <p class="meta">type: {post.data.type}</p>
-  <p class="meta">
-    tags:
-    {post.data.tag.map((tag, i) => (
-      <>
-        {i > 0 ? ", " : " "}
-        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
-      </>
-    ))}
-  </p>
-  <Content />
+  <article class={isBlog ? "blog-article" : undefined} aria-labelledby="post-title">
+    {isBlog && <p class="kicker">UTA8A BLOG</p>}
+    <header>
+      <h1 id="post-title">{post.data.title}</h1>
+      <ul class="meta tag-list" aria-label="Tags">
+        {post.data.tag.map((tag) => (
+          <li><a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a></li>
+        ))}
+      </ul>
+      {isBlog && <p class="back"><a href="/blog/" aria-label="Back to blog top page">← Back to Blog</a></p>}
+    </header>
+
+    <div class={isBlog ? "content content-blog" : "content"} aria-label="Article body">
+      <Content />
+    </div>
+  </article>
 </BaseLayout>
+
+<style>
+  .blog-article {
+    padding-top: clamp(1rem, 3vw, 2.2rem);
+  }
+
+  .kicker {
+    margin: 0 0 0.2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #5f6670;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.07;
+    letter-spacing: -0.02em;
+  }
+
+  .back {
+    margin: 0.65rem 0 0;
+  }
+
+  .tag-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 0.45rem 0 0;
+    padding: 0;
+  }
+
+  .content {
+    margin-top: 1.1rem;
+  }
+
+  .content-blog {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+    font-size: clamp(1.06rem, 2vw, 1.16rem);
+    line-height: 1.85;
+    max-width: 68ch;
+  }
+
+  .content-blog :global(h2),
+  .content-blog :global(h3) {
+    font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+    line-height: 1.25;
+    margin-top: 1.7em;
+    margin-bottom: 0.55em;
+  }
+
+  .content-blog :global(p) {
+    margin: 0 0 1.05em;
+  }
+</style>

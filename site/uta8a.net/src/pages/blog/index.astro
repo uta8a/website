@@ -1,0 +1,119 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const blogPosts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft && post.data.type === "blog")
+  .sort((a, b) => b.slug.localeCompare(a.slug));
+
+const dateFromSlug = (slug: string): { iso: string; label: string } => {
+  const [, rawSlug] = slug.split("/");
+  const date = rawSlug?.slice(0, 10);
+  if (!date) return { iso: "", label: "" };
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return { iso: date, label: date };
+  return {
+    iso: date,
+    label: parsed.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }),
+  };
+};
+---
+
+<BaseLayout title="Blog" description="uta8a blog posts">
+  <header class="hero">
+    <p class="eyebrow">UTA8A.NET</p>
+    <h1>Blog</h1>
+    <p class="lead">Notes on engineering, tooling, and web craftsmanship.</p>
+  </header>
+
+  <nav aria-label="Blog utilities">
+    <p class="meta">
+      <a href="/tags/">Browse by tag</a> · <a href="/rss.xml">RSS feed</a>
+    </p>
+  </nav>
+
+  <section class="list" aria-labelledby="blog-list-heading">
+    <h2 id="blog-list-heading" class="visually-hidden">Blog posts</h2>
+    <ul class="cards">
+      {blogPosts.map((post) => {
+        const date = dateFromSlug(post.slug);
+        return (
+          <li>
+            <article class="card">
+              <time class="meta date" datetime={date.iso}>{date.label}</time>
+              <h3><a href={`/${post.slug}/`}>{post.data.title}</a></h3>
+              <p class="summary">{post.data.description}</p>
+              <p class="meta tags">{post.data.tag.map((tag) => `#${tag}`).join(" ")}</p>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: clamp(1rem, 3vw, 2rem) 0 1.3rem;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    color: #5f6670;
+  }
+
+  h1 {
+    margin: 0.15rem 0 0.35rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.05;
+  }
+
+  .lead {
+    margin: 0;
+    color: #4c5560;
+    max-width: 56ch;
+  }
+
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .card {
+    background: #fffefb;
+    border: 1px solid #ddd6cb;
+    border-radius: 12px;
+    padding: 1rem 1.1rem 1.05rem;
+  }
+
+  .date {
+    margin: 0 0 0.2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.25;
+  }
+
+  .summary {
+    margin: 0.5rem 0 0.6rem;
+    color: #2b3138;
+  }
+
+  .tags {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+</style>

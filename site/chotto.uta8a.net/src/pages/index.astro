@@ -2,23 +2,138 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+const toDate = (slug: string): number => {
+  const [, raw] = slug.split("/");
+  const datePart = raw?.slice(0, 10) ?? "";
+  const value = Date.parse(datePart);
+  return Number.isNaN(value) ? 0 : value;
+};
+
 const posts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.slug.localeCompare(a.slug));
+  .sort((a, b) => toDate(b.slug) - toDate(a.slug));
+
+const toDateText = (slug: string): string => {
+  const [, raw] = slug.split("/");
+  return raw?.slice(0, 10) ?? "";
+};
 ---
 
-<BaseLayout title="Posts" description="Post list">
-  <h1>Posts</h1>
-  <p class="meta">Synced from <code>content/</code>.</p>
-  <p>
-    <a href="/tags/">Tags</a> | <a href="/rss.xml">RSS</a>
-  </p>
-  <ul>
-    {posts.map((post) => (
-      <li>
-        <a href={`/${post.slug}/`}>{post.data.title}</a>
-        <div class="meta">{post.slug}</div>
-      </li>
-    ))}
-  </ul>
+<BaseLayout title="chotto" description="small daily posts">
+  <header class="heading">
+    <h1>chotto</h1>
+    <p class="meta">短い記事を高密度で一覧できるようにしています。</p>
+    <nav aria-label="Primary">
+      <p class="nav"><a href="/tags/">Tags</a> <span aria-hidden="true">/</span> <a href="/rss.xml">RSS</a></p>
+    </nav>
+  </header>
+
+  <section aria-labelledby="post-list-heading">
+    <h2 id="post-list-heading" class="visually-hidden">Post list</h2>
+    <ul class="post-list">
+      {posts.map((post) => {
+        const dateText = toDateText(post.slug);
+        return (
+          <li class="row">
+            <time class="date" datetime={dateText}>{dateText || "---- -- --"}</time>
+            <a class="title" href={`/${post.slug}/`}>{post.data.title}</a>
+            <ul class="tags" aria-label="Tags">
+              {post.data.tag.map((tag) => (
+                <li><a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a></li>
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
 </BaseLayout>
+
+<style>
+  .heading {
+    padding: 2.6rem 0 1.2rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+  }
+
+  .nav {
+    margin-top: 0.25rem;
+    font-size: 0.92rem;
+    color: #798086;
+  }
+
+  .nav span {
+    margin: 0 0.35rem;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #d8d8d3;
+    background: #fbfbf9;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.65rem 0.95rem;
+    border-bottom: 1px solid #ecece7;
+  }
+
+  .date {
+    color: #70757a;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .title {
+    color: #1f2326;
+    min-width: 0;
+  }
+
+  .tags {
+    text-align: right;
+    font-size: 0.76rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    color: #6f777d;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tags a {
+    opacity: 0.85;
+  }
+
+  @media (max-width: 900px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+      padding: 0.7rem 0;
+      padding: 0.85rem 0.8rem;
+    }
+
+    .tags {
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .heading {
+      padding-top: 1.4rem;
+    }
+  }
+</style>
