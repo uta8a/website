@@ -14,8 +14,12 @@ run = "deno run -A scripts/inotify-sync.ts --watch"
 description = "新規記事のテンプレートを生成する ($ mise run init-content -- --help でオプション確認)"
 run = "deno run -A scripts/init-content.ts"
 
+[tasks."changelog"]
+description = "changelogに追加するYAML objectを出力する ($ mise run changelog -- --help)"
+run = "deno run -A scripts/changelog-object.ts"
+
 [tasks."test:scripts"]
-run = "deno test scripts/init-content_test.ts scripts/inotify-sync_test.ts"
+run = "deno test scripts/init-content_test.ts scripts/inotify-sync_test.ts scripts/changelog-object_test.ts"
 
 [tasks."dev:uta8a.net"]
 run = "pnpm --dir site/uta8a.net dev"

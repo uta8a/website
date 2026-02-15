@@ -32,6 +32,7 @@
 │   ├── chotto.uta8a.net/
 │   └── generated.uta8a.net/
 ├── scripts/
+│   ├── changelog-object.ts
 │   ├── dev-all.ts
 │   ├── inotify-sync.ts
 │   └── init-content.ts
@@ -80,6 +81,7 @@ changelog:
 
 - `mise.toml` の作成とタスク定義
 - `scripts/init-content.ts` の実装
+- `scripts/changelog-object.ts` の実装（changelog追記用object生成）
 - `scripts/inotify-sync.ts` の実装
 - `scripts/dev-all.ts` の実装（landing page + 全サイトdev起動）
 - `site/` 配下3サイトのAstro雛形作成
@@ -102,3 +104,12 @@ changelog:
   - `mise run init-content -- -h`
 - 記事作成:
   - `mise run init-content -- --domain chotto.uta8a.net --slug 2026-02-15-my-post --type note --title "My Post"`
+
+## changelog-object の使い方
+
+- ヘルプ表示:
+  - `mise run changelog-object -- --help`
+- object生成（日時は現在時刻）:
+  - `mise run changelog-object -- --summary "Typo fix"`
+- 日時を明示:
+  - `mise run changelog-object -- --summary "Add benchmark result" --date "2026-02-15T11:00:00.000+09:00[Asia/Tokyo]"`
