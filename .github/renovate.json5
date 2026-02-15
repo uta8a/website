@@ -1,0 +1,66 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':dependencyDashboard',
+    ':separateMajorReleases',
+  ],
+  timezone: 'Asia/Tokyo',
+  minimumReleaseAge: '3 days',
+  schedule: [
+    'on monday',
+  ],
+  labels: ['dependencies'],
+  prConcurrentLimit: 5,
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ['before 4am on monday'],
+  },
+  customManagers: [
+    {
+      customType: 'regex',
+      managerFilePatterns: ['/^mise\\.toml$/'],
+      matchStrings: [
+        '(?m)^\\s*deno\\s*=\\s*"(?<currentValue>[^"]+)"\\s*$',
+      ],
+      datasourceTemplate: 'github-tags',
+      versioningTemplate: 'semver',
+      depNameTemplate: 'denoland/deno',
+      extractVersionTemplate: '^v?(?<version>.+)$',
+    },
+    {
+      customType: 'regex',
+      managerFilePatterns: ['/^mise\\.toml$/'],
+      matchStrings: [
+        '(?m)^\\s*pnpm\\s*=\\s*"(?<currentValue>[^"]+)"\\s*$',
+      ],
+      datasourceTemplate: 'github-tags',
+      versioningTemplate: 'semver',
+      depNameTemplate: 'pnpm/pnpm',
+      extractVersionTemplate: '^v?(?<version>.+)$',
+    },
+  ],
+  packageRules: [
+    {
+      groupName: 'astro monorepo dependencies',
+      matchManagers: ['npm'],
+      matchPackageNames: [
+        'astro',
+        '@astrojs/check',
+        'typescript',
+        'zod',
+        'remark-breaks',
+        'satori',
+        '@resvg/resvg-js',
+      ],
+    },
+    {
+      groupName: 'github actions',
+      matchManagers: ['github-actions'],
+    },
+    {
+      groupName: 'mise tools',
+      matchManagers: ['custom.regex'],
+    },
+  ],
+}
