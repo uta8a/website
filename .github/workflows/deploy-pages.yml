@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/deploy-pages.yml
+      - "content/**"
+      - "site/**"
   workflow_dispatch:
 
 permissions:
