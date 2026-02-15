@@ -105,11 +105,11 @@ changelog:
 - 記事作成:
   - `mise run init-content -- --domain chotto.uta8a.net --slug 2026-02-15-my-post --type note --title "My Post"`
 
-## changelog-object の使い方
+## changelog の使い方
 
 - ヘルプ表示:
-  - `mise run changelog-object -- --help`
+  - `mise run changelog -- --help`
 - object生成（日時は現在時刻）:
-  - `mise run changelog-object -- --summary "Typo fix"`
+  - `mise run changelog -- --summary "Typo fix"`
 - 日時を明示:
-  - `mise run changelog-object -- --summary "Add benchmark result" --date "2026-02-15T11:00:00.000+09:00[Asia/Tokyo]"`
+  - `mise run changelog -- --summary "Add benchmark result" --date "2026-02-15T11:00:00.000+09:00[Asia/Tokyo]"`
