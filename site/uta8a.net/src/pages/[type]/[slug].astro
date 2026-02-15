@@ -36,6 +36,24 @@ const isBlog = type === "blog";
     <div class={isBlog ? "content content-blog" : "content"} aria-label="Article body">
       <Content />
     </div>
+
+    {isBlog && (
+      <details class="post-meta-box">
+        <summary>Revision History & Contact</summary>
+        <h2 class="visually-hidden">Revision history</h2>
+        <ul aria-label="Changelog entries">
+          {post.data.changelog.map((item) => (
+            <li>
+              <strong>{item.summary}</strong>
+              <time class="meta" datetime={item.date}>{item.date}</time>
+            </li>
+          ))}
+        </ul>
+        <p>
+          Contact: <a href="/contact">uta8a.net/contact</a>
+        </p>
+      </details>
+    )}
   </article>
 </BaseLayout>
 
@@ -92,5 +110,27 @@ const isBlog = type === "blog";
 
   .content-blog :global(p) {
     margin: 0 0 1.05em;
+  }
+
+  .post-meta-box {
+    margin-top: 2.4rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #ddd6cb;
+    border-radius: 10px;
+    background: #fffefb;
+  }
+
+  .post-meta-box summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .post-meta-box ul {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  .post-meta-box li + li {
+    margin-top: 0.35rem;
   }
 </style>
