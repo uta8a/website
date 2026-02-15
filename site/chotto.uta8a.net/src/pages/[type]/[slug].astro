@@ -15,8 +15,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const [, slug] = post.slug.split("/");
-const ogImage = slug ? `/posts/${slug}/${post.data.ogp}` : undefined;
+const [type, slug] = post.slug.split("/");
+const ogImage = type && slug ? `/og/${type}/${slug}.png` : (slug ? `/posts/${slug}/${post.data.ogp}` : undefined);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description} ogImage={ogImage} ogType="article">
