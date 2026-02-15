@@ -34,6 +34,11 @@ jobs:
           install: true
           cache: true
 
+      - name: Install Japanese fonts for OGP
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-ipafont-gothic
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
