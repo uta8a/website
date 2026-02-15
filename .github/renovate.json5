@@ -16,30 +16,6 @@
     enabled: true,
     schedule: ['before 4am on monday'],
   },
-  customManagers: [
-    {
-      customType: 'regex',
-      managerFilePatterns: ['/^mise\\.toml$/'],
-      matchStrings: [
-        '(?m)^\\s*deno\\s*=\\s*"(?<currentValue>[^"]+)"\\s*$',
-      ],
-      datasourceTemplate: 'github-tags',
-      versioningTemplate: 'semver',
-      depNameTemplate: 'denoland/deno',
-      extractVersionTemplate: '^v?(?<version>.+)$',
-    },
-    {
-      customType: 'regex',
-      managerFilePatterns: ['/^mise\\.toml$/'],
-      matchStrings: [
-        '(?m)^\\s*pnpm\\s*=\\s*"(?<currentValue>[^"]+)"\\s*$',
-      ],
-      datasourceTemplate: 'github-tags',
-      versioningTemplate: 'semver',
-      depNameTemplate: 'pnpm/pnpm',
-      extractVersionTemplate: '^v?(?<version>.+)$',
-    },
-  ],
   packageRules: [
     {
       groupName: 'astro monorepo dependencies',
@@ -60,7 +36,7 @@
     },
     {
       groupName: 'mise tools',
-      matchManagers: ['custom.regex'],
+      matchManagers: ['mise'],
     },
   ],
 }
