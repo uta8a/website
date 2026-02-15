@@ -1,0 +1,158 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+}
+
+const {
+  title = "uta8a.net",
+  description = "uta8a.net",
+  ogImage,
+  ogType = "website",
+} = Astro.props;
+
+const currentUrl = Astro.url?.toString();
+const resolvedOgImage = ogImage && Astro.url ? new URL(ogImage, Astro.url).toString() : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1d4b6f" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+    {currentUrl && <link rel="canonical" href={currentUrl} />}
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="uta8a.net" />
+    {currentUrl && <meta property="og:url" content={currentUrl} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+
+    <meta name="twitter:card" content={resolvedOgImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
+
+    <style>
+      :root {
+        --bg: #f6f4ef;
+        --panel: #fffefb;
+        --text: #1f2328;
+        --muted: #5f6670;
+        --line: #ddd6cb;
+        --link: #1d4b6f;
+        --link-hover: #12344e;
+        font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        padding: clamp(1rem, 3vw, 2.4rem);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      body > * {
+        width: min(860px, 100%);
+        margin-inline: auto;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.15em;
+      }
+
+      a:hover {
+        color: var(--link-hover);
+      }
+
+      a:focus-visible {
+        outline: 2px solid #1d4b6f;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.015em;
+      }
+
+      :global(img),
+      :global(video),
+      :global(picture) {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .meta {
+        color: var(--muted);
+      }
+
+      .skip-link {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        position: fixed;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0.45rem 0.7rem;
+        clip: auto;
+        clip-path: none;
+        white-space: normal;
+        left: 1rem;
+        top: 0.8rem;
+        z-index: 999;
+        background: #1f2328;
+        color: #fff;
+        border-radius: 6px;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content">
+      <slot />
+    </main>
+  </body>
+</html>

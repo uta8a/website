@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="chotto.uta8a.net favicon">
+  <!-- Rounded white tile -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#FFFFFF"/>
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#E6E6E6" stroke-width="8"/>
+
+  <!-- Spark -->
+  <path
+    d="M256 118
+       C265 150 278 166 310 175
+       C278 184 265 200 256 232
+       C247 200 234 184 202 175
+       C234 166 247 150 256 118Z"
+    fill="#F4B23A"
+  />
+
+  <!-- Small dots -->
+  <circle cx="344" cy="160" r="14" fill="#2FB3C7"/>
+  <circle cx="380" cy="198" r="16" fill="#F07A2B"/>
+
+  <!-- Cheeks -->
+  <circle cx="200" cy="258" r="22" fill="#F07A2B"/>
+  <circle cx="332" cy="258" r="22" fill="#F07A2B"/>
+
+  <!-- Smile -->
+  <path
+    d="M226 320
+       C240 342 272 342 286 320"
+    fill="none"
+    stroke="#2FB3C7"
+    stroke-width="26"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

@@ -1,0 +1,22 @@
+{
+  "name": "@website/chotto.uta8a.net",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^5.14.2",
+    "satori": "^0.19.2",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@types/node": "^25.2.3",
+    "typescript": "^5.9.3"
+  }
+}

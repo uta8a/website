@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts")).filter((post) => !post.data.draft);
+  return posts
+    .map((post) => {
+      const [type, slug] = post.slug.split("/");
+      if (!type || !slug) return null;
+      return { params: { type, slug }, props: { post } };
+    })
+    .filter((v): v is { params: { type: string; slug: string }; props: { post: (typeof posts)[number] } } => v !== null);
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const [type, slug] = post.slug.split("/");
+const isBlog = type === "blog";
+const ogImage = isBlog && slug ? `/og/${type}/${slug}.png` : (slug ? `/posts/${slug}/${post.data.ogp}` : undefined);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} ogImage={ogImage} ogType="article">
+  <article class={isBlog ? "blog-article" : undefined} aria-labelledby="post-title">
+    {isBlog && <p class="kicker">UTA8A BLOG</p>}
+    <header>
+      <h1 id="post-title">{post.data.title}</h1>
+      <ul class="meta tag-list" aria-label="Tags">
+        {post.data.tag.map((tag) => (
+          <li><a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a></li>
+        ))}
+      </ul>
+      {isBlog && <p class="back"><a href="/blog/" aria-label="Back to blog top page">← Back to Blog</a></p>}
+    </header>
+
+    <div class={isBlog ? "content content-blog" : "content"} aria-label="Article body">
+      <Content />
+    </div>
+
+    {isBlog && (
+      <details class="post-meta-box">
+        <summary>Revision History & Contact</summary>
+        <h2 class="visually-hidden">Revision history</h2>
+        <ul aria-label="Changelog entries">
+          {post.data.changelog.map((item) => (
+            <li>
+              <strong>{item.summary}</strong>
+              <time class="meta" datetime={item.date}>{item.date}</time>
+            </li>
+          ))}
+        </ul>
+        <p>
+          Contact: <a href="/contact">uta8a.net/contact</a>
+        </p>
+      </details>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-article {
+    padding-top: clamp(1rem, 3vw, 2.2rem);
+  }
+
+  .kicker {
+    margin: 0 0 0.2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #5f6670;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.07;
+    letter-spacing: -0.02em;
+  }
+
+  .back {
+    margin: 0.65rem 0 0;
+  }
+
+  .tag-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 0.45rem 0 0;
+    padding: 0;
+  }
+
+  .content {
+    margin-top: 1.1rem;
+  }
+
+  .content-blog {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+    font-size: clamp(1.06rem, 2vw, 1.16rem);
+    line-height: 1.85;
+    max-width: 68ch;
+  }
+
+  .content-blog :global(h2),
+  .content-blog :global(h3) {
+    font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+    line-height: 1.25;
+    margin-top: 1.7em;
+    margin-bottom: 0.55em;
+  }
+
+  .content-blog :global(p) {
+    margin: 0 0 1.05em;
+  }
+
+  .post-meta-box {
+    margin-top: 2.4rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #ddd6cb;
+    border-radius: 10px;
+    background: #fffefb;
+  }
+
+  .post-meta-box summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .post-meta-box ul {
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  .post-meta-box li + li {
+    margin-top: 0.35rem;
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts")).filter((post) => !post.data.draft);
+const countByTag = new Map<string, number>();
+
+for (const post of posts) {
+  for (const tag of post.data.tag) {
+    countByTag.set(tag, (countByTag.get(tag) ?? 0) + 1);
+  }
+}
+
+const tags = [...countByTag.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+---
+
+<BaseLayout title="Tags" description="Tag list">
+  <h1>Tags</h1>
+  <ul>
+    {tags.map(([tag, count]) => (
+      <li>
+        <a href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>
+        <span class="meta"> ({count})</span>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
