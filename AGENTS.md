@@ -14,6 +14,8 @@
 - タスク実行は `mise` 経由で行う
 - 各サイト実装は `Astro` を使う
 - `content/` のMarkdownはフレームワーク非依存で維持する
+- `changelog.date` は `Temporal.ZonedDateTime.from()` で解釈可能な文字列を使う
+- 日時の解釈に `Date.parse` は使わず、`temporal-polyfill-lite` の `Temporal` を使う
 
 ## 変更方針
 

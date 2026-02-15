@@ -1,11 +1,16 @@
 ---
 import { getCollection } from "astro:content";
+import { Temporal } from "temporal-polyfill-lite";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const toChangelogDate = (date?: string): number => {
-    const value = Date.parse(date ?? "");
-    return Number.isNaN(value) ? 0 : value;
+    if (!date) return 0;
+    try {
+      return Temporal.ZonedDateTime.from(date).epochMilliseconds;
+    } catch {
+      return 0;
+    }
   };
 
   const posts = (await getCollection("posts")).filter((post) => !post.data.draft);

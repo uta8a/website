@@ -66,8 +66,10 @@ ogp: string
 tag: string[]
 changelog:
   - summary: string
-    date: ISO 8601 string
+    date: Temporal.ZonedDateTime.from() で解釈可能な文字列
 ```
+
+`changelog.date` はタイムゾーンを含む形式（例: `2026-02-15T11:00:00.000+09:00[Asia/Tokyo]`）を推奨し、実装側では `Date.parse` ではなく `temporal-polyfill-lite` を使って解釈します。
 
 ## この段階で作成済みドキュメント
 
