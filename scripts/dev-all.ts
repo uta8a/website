@@ -102,10 +102,26 @@ for (const site of sites) {
   spawnProcess(`dev:${site.name}`, ["pnpm", "--dir", site.dir, "dev", "--host", HOST, "--port", String(site.port)]);
 }
 
-Deno.serve({ hostname: HOST, port: LANDING_PORT }, () => {
-  return new Response(landingHtml(), {
+Deno.serve({ hostname: HOST, port: LANDING_PORT }, (req) => {
+  const { pathname } = new URL(req.url);
+  if (pathname === "/") {
+    return new Response(landingHtml(), {
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "no-store",
+      },
+    });
+  }
+
+  if (pathname === "/favicon.ico") {
+    return new Response(null, { status: 204 });
+  }
+
+  return new Response("Not Found", {
+    status: 404,
     headers: {
-      "content-type": "text/html; charset=utf-8",
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
     },
   });
 });

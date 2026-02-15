@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "astro": "^5.17.2",
+    "remark-breaks": "^4.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
