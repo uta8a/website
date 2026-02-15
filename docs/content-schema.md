@@ -28,7 +28,7 @@ ogp: string
 tag: string[]
 changelog:
   - summary: string
-    date: string # ISO 8601
+    date: string # Temporal.ZonedDateTime.from() で解釈可能
 ```
 
 ## フィールド定義
@@ -41,7 +41,7 @@ changelog:
 - `tag`: タグ一覧
 - `changelog`: 変更履歴
   - `summary`: 変更要約
-  - `date`: タイムゾーン付きISO 8601文字列
+  - `date`: タイムゾーン付き日時文字列（`Temporal.ZonedDateTime.from()` で解釈可能）
 
 ## 制約
 
@@ -50,3 +50,4 @@ changelog:
 - `title` は本文先頭見出しと重複記述しない
 - `tag` は空配列を許容するが、公開記事では1件以上を推奨
 - `changelog` は新しい変更を末尾追加で管理する
+- `changelog.date` は `2026-02-15T11:00:00.000+09:00[Asia/Tokyo]` のようにタイムゾーン名まで含む形式を推奨する
