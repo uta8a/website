@@ -8,8 +8,8 @@ tag:
   - note
   - writing
 changelog:
-  - summary: "Initial draft"
-    date: "2026-02-15T02:21:11.296Z"
+  - summary: "publish"
+    date: "2026-02-15T12:52:57.095+09:00[Asia/Tokyo]"
 ---
 
 portfolioの文章について気をつけていたことを書く。
@@ -36,7 +36,7 @@ ChatGPTと議論して得た視点
 
 このような視点を得て、最終的に以下の文章になった。
 
-> Software engineer focused on CI/CD and cloud-native systems. I work on delivery pipelines and metrics infrastructure to improve engineering productivity and observability. I’m particularly interested in designing secure execution environments where autonomous systems—such as CI jobs and AI agents—can operate with meaningful capabilities under strict constraints. Outside of engineering, I enjoy landscape photography and music.
+> Software engineer focused on CI/CD and cloud-native systems. I work on delivery pipelines and metrics infrastructure to improve engineering productivity and observability. I'm particularly interested in designing secure execution environments where autonomous systems—such as CI jobs and AI agents—can operate with meaningful capabilities under strict constraints. Outside of engineering, I enjoy landscape photography and music.
 > 
 > [uta8a.net](https://uta8a.net)
 
