@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="uta8a.net favicon">
+  <!-- Rounded white tile -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#FFFFFF"/>
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#E6E6E6" stroke-width="8"/>
+
+  <!-- Bold rounded U -->
+  <!-- Drawn as a thick stroked path for nice rounding -->
+  <path
+    d="M176 160
+       V268
+       C176 348 216 412 248 412
+       H264
+       C296 412 336 348 336 268
+       V160"
+    fill="none"
+    stroke="#111111"
+    stroke-width="104"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

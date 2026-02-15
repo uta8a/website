@@ -39,6 +39,24 @@
     - [x] uta8a.net/blog の英語圏向けデザイン調整（一覧・記事）
     - [x] chotto / uta8a.net/blog のa11y改善（landmark, skip link, semantic list/time, focus-visible）
     - [x] uta8a.net の skip link は Tab フォーカス時のみ表示
+- [ ] site/ の不足実装
+  - [x] favicon整備
+    - [x] 各サイトの `public/favicon.ico` を配置
+    - [x] `apple-touch-icon` を用意し `<link rel=\"apple-touch-icon\">` をheadに追加
+  - [ ] OGP画像運用の整備
+    - [ ] 各サイトのデフォルトOGP画像を `public/og-default.*` として配置
+    - [ ] 記事で `ogp` が無い/欠落時のフォールバック実装
+    - [ ] OGP画像サイズ・形式のルール化（1200x630推奨）をdocs化
+  - [ ] Web Appメタデータ
+    - [x] `site.webmanifest` の追加
+    - [x] `<meta name=\"theme-color\">` の追加
+  - [ ] クロール/配信まわり
+    - [x] `robots.txt` の追加
+    - [x] `sitemap.xml` の追加
+    - [x] RSSへの `<link rel=\"alternate\" type=\"application/rss+xml\">` をheadに追加
+  - [ ] ルーティングの基本ページ
+    - [x] 各サイトに `404.astro` を追加
+
 
 ## 将来的な改善
 
@@ -50,3 +68,6 @@
 - [ ] 開発体験の整備
   - [ ] `mise` タスク追加（`check`, `build`, `dev:all`）
   - [ ] CIで `sync` + `pnpm -r check` を実行
+- [ ] site/ の不足実装
+  - [ ] 多言語整合
+    - [ ] `uta8a.net`（英語系）と `chotto.uta8a.net`（日本語系）で `lang` と文言の統一ルールを決める

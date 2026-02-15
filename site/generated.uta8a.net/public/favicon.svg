@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="generated.uta8a.net favicon">
+  <!-- Rounded white tile -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#FFFFFF"/>
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#E6E6E6" stroke-width="8"/>
+
+  <!-- Network frame coordinates -->
+  <!-- Corners -->
+  <!-- Lines -->
+  <g stroke="#111111" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- outer square -->
+    <path d="M176 176 H336 V336 H176 Z"/>
+    <!-- midlines -->
+    <path d="M256 176 V336"/>
+    <path d="M176 256 H336"/>
+    <!-- diagonals to center -->
+    <path d="M176 176 L256 256 L336 176"/>
+    <path d="M176 336 L256 256 L336 336"/>
+  </g>
+
+  <!-- Nodes (cyan + black mix) -->
+  <g>
+    <!-- corners (cyan) -->
+    <circle cx="176" cy="176" r="26" fill="#2FB3C7"/>
+    <circle cx="336" cy="176" r="26" fill="#2FB3C7"/>
+    <circle cx="176" cy="336" r="26" fill="#2FB3C7"/>
+    <circle cx="336" cy="336" r="26" fill="#2FB3C7"/>
+
+    <!-- edge midpoints (black) -->
+    <circle cx="256" cy="176" r="24" fill="#111111"/>
+    <circle cx="256" cy="336" r="24" fill="#111111"/>
+    <circle cx="176" cy="256" r="24" fill="#111111"/>
+    <circle cx="336" cy="256" r="24" fill="#111111"/>
+
+    <!-- center (cyan) -->
+    <circle cx="256" cy="256" r="26" fill="#2FB3C7"/>
+  </g>
+</svg>
