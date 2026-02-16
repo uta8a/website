@@ -1,6 +1,11 @@
 #!/usr/bin/env -S deno run -A
 export const DOMAIN_LIST = ["uta8a.net", "chotto.uta8a.net", "generated.uta8a.net"] as const;
+export const IGNORED_DIR_NAME = "files.ignore";
 const REQUIRED_KEYS = ["type", "title", "draft", "description", "ogp", "tag", "changelog"] as const;
+
+export function isIgnoredSyncDirectoryName(name: string): boolean {
+  return name === IGNORED_DIR_NAME;
+}
 
 const rootDir = Deno.cwd();
 const contentRoot = `${rootDir}/content`;
@@ -93,10 +98,11 @@ async function* walkFiles(dir: string): AsyncGenerator<string> {
   }
 }
 
-async function copyAssetsRecursively(srcDir: string, destDir: string): Promise<void> {
+export async function copyAssetsRecursively(srcDir: string, destDir: string): Promise<void> {
   await Deno.mkdir(destDir, { recursive: true });
   for await (const entry of Deno.readDir(srcDir)) {
     if (entry.name === "README.md") continue;
+    if (entry.isDirectory && isIgnoredSyncDirectoryName(entry.name)) continue;
     const from = `${srcDir}/${entry.name}`;
     const to = `${destDir}/${entry.name}`;
     if (entry.isDirectory) {
@@ -124,6 +130,7 @@ async function syncDomain(domain: (typeof DOMAIN_LIST)[number]): Promise<{ ok: n
 
   for await (const entry of Deno.readDir(inDir)) {
     if (!entry.isDirectory) continue;
+    if (isIgnoredSyncDirectoryName(entry.name)) continue;
     const slug = entry.name;
 
     const articleDir = `${inDir}/${slug}`;

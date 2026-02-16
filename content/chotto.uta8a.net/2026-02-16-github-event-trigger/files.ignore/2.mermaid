@@ -1,0 +1,9 @@
+flowchart LR
+  A["Repo A (public)<br/>GitHub Actions"]
+  P["Proxy<br/>API Gateway + Lambda"]
+  B["Repo B (private)<br/>GitHub Actions"]
+  C(("Cloud / AWS"))
+
+  A -->|"trigger"| P
+  P -->|"workflow_dispatch"| B
+  B -->|"deploy"| C

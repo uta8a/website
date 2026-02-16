@@ -27,6 +27,7 @@
 - `content/<domain>/` の変更を該当 `site/<domain>/` のみに同期
 - `README.md` 本文とfrontmatterを保持して変換
 - アセット（画像等）を相対参照が壊れない形でコピー
+- `files.ignore/` ディレクトリは同期対象外として扱い、出力にコピーしない
 - 削除イベント時に出力側も追従削除
 - Markdown内リンク/画像の `./` 始まりパスはローカルアセット参照とみなし、`/posts/<slug>/...` にrewriteする
 

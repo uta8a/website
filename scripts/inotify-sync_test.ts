@@ -1,5 +1,11 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert";
-import { extractType, rewriteLocalAssetPaths, splitFrontmatter, validateFrontmatter } from "./inotify-sync.ts";
+import {
+  extractType,
+  isIgnoredSyncDirectoryName,
+  rewriteLocalAssetPaths,
+  splitFrontmatter,
+  validateFrontmatter,
+} from "./inotify-sync.ts";
 
 const sample = `---
 type: "diary"
@@ -40,4 +46,10 @@ Deno.test("rewriteLocalAssetPaths rewrites dot-slash paths", () => {
 
 Deno.test("validateFrontmatter throws for missing keys", () => {
   assertThrows(() => validateFrontmatter("---\ntitle: x\n---", "bad.md"));
+});
+
+Deno.test("isIgnoredSyncDirectoryName matches files.ignore only", () => {
+  assertEquals(isIgnoredSyncDirectoryName("files.ignore"), true);
+  assertEquals(isIgnoredSyncDirectoryName("images"), false);
+  assertEquals(isIgnoredSyncDirectoryName("README.md"), false);
 });
