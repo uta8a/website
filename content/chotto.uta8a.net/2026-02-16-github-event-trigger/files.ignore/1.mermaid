@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph Public["Public: インフラ用"]
+    A1["Repo A1<br/>(infra code)"]
+    A2["Repo A2<br/>(infra code)"]
+    A3["Repo A3<br/>(infra code)"]
+  end
+
+  subgraph Private["Private: デプロイCI集約"]
+    B["Repo B<br/>(deploy workflows + ChatOps)"]
+  end
+
+  C(("Cloud / AWS"))
+
+  A1 -->|"イベント起点<br/>(PR label / push main)"| B
+  A2 -->|"イベント起点<br/>(PR label / push main)"| B
+  A3 -->|"イベント起点<br/>(PR label / push main)"| B
+
+  B -->|"Repo A のコードを参照してデプロイ"| C

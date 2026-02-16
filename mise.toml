@@ -1,5 +1,6 @@
 [tools]
 deno = "2.6.9"
+"npm:@mermaid-js/mermaid-cli" = "11.12.0"
 pnpm = "10.29.3"
 
 ## task runner: `mise tasks` で一覧表示できる
