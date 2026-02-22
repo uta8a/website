@@ -19,7 +19,11 @@ export function splitFrontmatter(markdown: string): { frontmatter: string; body:
   return { frontmatter: match[1], body: match[2] };
 }
 
-export function rewriteLocalAssetPaths(markdown: string, slug: string): string {
+export function rewriteLocalAssetPaths(
+  markdown: string,
+  slug: string,
+  domain?: (typeof DOMAIN_LIST)[number],
+): string {
   const { frontmatter, body } = splitFrontmatter(markdown);
   const base = `/posts/${slug}/`;
 
@@ -35,6 +39,11 @@ export function rewriteLocalAssetPaths(markdown: string, slug: string): string {
   rewritten = rewritten.replace(/(<(?:img|a)\b[^>]*\b(?:src|href)=["'])(\.\/[^"']+)(["'][^>]*>)/g, (_, p1, p2, p3) => {
     return `${p1}${rewritePath(p2)}${p3}`;
   });
+  if (domain === "generated.uta8a.net") {
+    rewritten = rewritten.replace(/(<iframe\b[^>]*\bsrc=["'])(\.\/[^"']+)(["'][^>]*>)/g, (_, p1, p2, p3) => {
+      return `${p1}${rewritePath(p2)}${p3}`;
+    });
+  }
 
   return `---\n${frontmatter}\n---\n\n${rewritten}`;
 }
@@ -146,7 +155,7 @@ async function syncDomain(domain: (typeof DOMAIN_LIST)[number]): Promise<{ ok: n
       const originalMarkdown = await Deno.readTextFile(sourceMd);
       validateFrontmatter(originalMarkdown, sourceMd);
       const type = extractType(originalMarkdown, sourceMd);
-      const markdown = rewriteLocalAssetPaths(originalMarkdown, slug);
+      const markdown = rewriteLocalAssetPaths(originalMarkdown, slug, domain);
 
       const outTypeDir = `${outPostsDir}/${type}`;
       await Deno.mkdir(outTypeDir, { recursive: true });
