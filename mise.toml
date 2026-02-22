@@ -31,5 +31,14 @@ run = "pnpm --dir site/chotto.uta8a.net dev"
 [tasks."dev:generated.uta8a.net"]
 run = "pnpm --dir site/generated.uta8a.net dev"
 
+[tasks."build:uta8a.net"]
+run = "pnpm --dir site/uta8a.net build"
+
+[tasks."build:chotto.uta8a.net"]
+run = "pnpm --dir site/chotto.uta8a.net build"
+
+[tasks."build:generated.uta8a.net"]
+run = "pnpm --dir site/generated.uta8a.net build"
+
 [tasks."dev:all"]
 run = "deno run -A scripts/dev-all.ts"
