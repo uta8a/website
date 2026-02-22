@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logic Infographic</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <style>
+      :root {
+        --bg: linear-gradient(145deg, #f4f7ff 0%, #eafaf2 100%);
+        --ink: #10243a;
+        --muted: #4c6177;
+        --card: #ffffffdd;
+        --line: #6aa7ff;
+        --accent-a: #1d8f6e;
+        --accent-b: #2b5db4;
+        --accent-c: #7a4dc8;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 28px 20px 32px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(1.4rem, 2vw, 2rem);
+        letter-spacing: 0.02em;
+      }
+
+      .subtitle {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .subtitle a {
+        color: #1e5db2;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid #d8e6fb;
+        border-radius: 16px;
+        padding: 16px;
+        backdrop-filter: blur(3px);
+        min-height: 220px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 1.05rem;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        color: #fff;
+      }
+
+      .b1 { background: var(--accent-a); }
+      .b2 { background: var(--accent-b); }
+      .b3 { background: var(--accent-c); }
+
+      ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        line-height: 1.6;
+      }
+
+      .flow {
+        position: relative;
+        margin: 22px 0;
+        height: 60px;
+      }
+
+      .flow svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .note {
+        background: #ffffffcc;
+        border-left: 4px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: #1f3550;
+        font-size: 0.96rem;
+      }
+
+      .katex {
+        font-size: 1.02em;
+      }
+
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          min-height: auto;
+        }
+
+        .flow {
+          height: 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap" aria-label="論理メモのインフォグラフィック">
+      <h1>証明可能性・演繹可能性・表現可能性</h1>
+      <p class="subtitle">
+        note.md の <a href="#p.69">p.69</a> / <a href="#p.147">p.147</a> を 1 枚で接続
+      </p>
+
+      <section class="grid">
+        <article class="card" id="p.147">
+          <span class="badge b1">p.147</span>
+          <h2>表現可能性</h2>
+          <ul>
+            <li>数値別に表現可能</li>
+            <li>\(\vdash_z\): Z のもとで演繹可能（<a href="#p.69">p.69</a>）</li>
+            <li>\(\bar{q}_1\): Z における項 \(0, 0', 0''\) を \(0, \bar{1}, \bar{2}\) と表現（<a href="#p.132">p.132</a>）</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p.69">
+          <span class="badge b2">p.69</span>
+          <h2>証明可能性 = 演繹可能性</h2>
+          <ul>
+            <li>\(\Gamma \vdash_S A\) は \(\Gamma\) からの演繹</li>
+            <li>\(\Gamma = \varnothing\) なら \(\vdash_S A\)</li>
+            <li>これは証明可能を意味する</li>
+          </ul>
+        </article>
+
+        <article class="card" id="p.132">
+          <span class="badge b3">結論</span>
+          <h2>3概念の接続</h2>
+          <ul>
+            <li>表現可能性が記号化を支える</li>
+            <li>演繹可能性が推論手続きを与える</li>
+            <li>証明可能性が到達可能性を示す</li>
+          </ul>
+        </article>
+      </section>
+
+      <div class="flow" aria-hidden="true">
+        <svg viewBox="0 0 1000 120" preserveAspectRatio="none">
+          <defs>
+            <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+              <polygon points="0 0, 7 3.5, 0 7" fill="#6aa7ff"></polygon>
+            </marker>
+          </defs>
+          <line x1="140" y1="60" x2="500" y2="60" stroke="#6aa7ff" stroke-width="5" marker-end="url(#arrow)" />
+          <line x1="500" y1="60" x2="860" y2="60" stroke="#6aa7ff" stroke-width="5" marker-end="url(#arrow)" />
+        </svg>
+      </div>
+
+      <p class="note">
+        p.147 と p.69 を合わせると、証明可能性・演繹可能性・表現可能性は独立概念ではなく、
+        「記述できること」と「導けること」と「示せること」の連鎖として理解できる。
+      </p>
+    </main>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+      onload="renderMathInElement(document.body, {delimiters: [{left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}]});"
+    ></script>
+  </body>
+</html>
