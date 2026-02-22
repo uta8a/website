@@ -39,9 +39,20 @@ Deno.test("extractType returns type from frontmatter", () => {
 });
 
 Deno.test("rewriteLocalAssetPaths rewrites dot-slash paths", () => {
-  const out = rewriteLocalAssetPaths(sample, "2026-02-14-foo");
+  const out = rewriteLocalAssetPaths(sample, "2026-02-14-foo", "uta8a.net");
   assertEquals(out.includes("/posts/2026-02-14-foo/img.png"), true);
   assertEquals(out.includes("/posts/2026-02-14-foo/foo/bar.pdf"), true);
+});
+
+Deno.test("rewriteLocalAssetPaths rewrites iframe src only for generated.uta8a.net", () => {
+  const iframeSample = `${sample}
+<iframe src="./embed/index.html"></iframe>
+`;
+  const generatedOut = rewriteLocalAssetPaths(iframeSample, "2026-02-14-foo", "generated.uta8a.net");
+  const uta8aOut = rewriteLocalAssetPaths(iframeSample, "2026-02-14-foo", "uta8a.net");
+
+  assertEquals(generatedOut.includes('src="/posts/2026-02-14-foo/embed/index.html"'), true);
+  assertEquals(uta8aOut.includes('src="./embed/index.html"'), true);
 });
 
 Deno.test("validateFrontmatter throws for missing keys", () => {
