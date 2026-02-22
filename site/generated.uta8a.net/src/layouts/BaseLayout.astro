@@ -31,6 +31,7 @@ const resolvedOgImage = ogImage && Astro.url ? new URL(ogImage, Astro.url).toStr
     <meta name="theme-color" content="#1d4b6f" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
     {currentUrl && <link rel="canonical" href={currentUrl} />}
 
