@@ -22,7 +22,7 @@ importers:
         version: 0.19.2
       temporal-polyfill-lite:
         specifier: ^0.2.2
-        version: 0.2.2
+        version: 0.2.3
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -47,7 +47,7 @@ importers:
         version: 4.0.0
       temporal-polyfill-lite:
         specifier: ^0.2.2
-        version: 0.2.2
+        version: 0.2.3
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -75,7 +75,7 @@ importers:
         version: 0.19.2
       temporal-polyfill-lite:
         specifier: ^0.2.2
-        version: 0.2.2
+        version: 0.2.3
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -1810,8 +1810,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  temporal-polyfill-lite@0.2.2:
-    resolution: {integrity: sha512-GYgIDofeKBmHV2ipDLYI7/0IGjsfiWCXjfyTD/JI+ylIp6fl8LReWC+TpIAZAl0KwnZIle8Mv951lyydV6kUvQ==}
+  temporal-polyfill-lite@0.2.3:
+    resolution: {integrity: sha512-jqCJmw1lJRvYan3JwQUqLL+13jlcx/1fbrdr/nmcV+4jIX85+ImTVZqg4cqHxpYZNUtFhmD77lG5R7R0nezHdw==}
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -4108,7 +4108,7 @@ snapshots:
       picocolors: 1.1.1
       sax: 1.4.4
 
-  temporal-polyfill-lite@0.2.2: {}
+  temporal-polyfill-lite@0.2.3: {}
 
   tiny-inflate@1.0.3: {}
 
