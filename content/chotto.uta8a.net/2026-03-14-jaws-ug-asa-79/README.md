@@ -6,6 +6,8 @@ description: "まだ触ってないAWSのサービスが多くてモチベが上
 ogp: "ogp-big.webp"
 tag:
   - "note"
+  - "aws"
+  - "event"
 changelog:
   - summary: "Initial draft"
     date: "2026-03-14T06:27:28.456+09:00[Asia/Tokyo]"
