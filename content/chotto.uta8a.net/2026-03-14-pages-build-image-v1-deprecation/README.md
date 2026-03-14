@@ -10,6 +10,8 @@ tag:
 changelog:
   - summary: "Initial draft"
     date: "2026-03-14T22:37:06.721+09:00[Asia/Tokyo]"
+  - summary: "cloudflare communityからの返答を追記"
+    date: "2026-03-14T23:13:15.242+09:00[Asia/Tokyo]"
 ---
 
 Action Required: Cloudflare Pages Build Image v1 Deprecation Notice - September 15, 2026 というタイトルのメールが来ていたので対応しました。
@@ -86,6 +88,7 @@ knowledge-uta8a-net     1       1
 - 一度Build imageを使うと、Build imageを完全削除はできない
   - blogプロジェクトは昔Build imageを使っていたのですが、今はAuto deployをOFFにしたりしています。でもv1なので通知が来ます。これは挙動がおかしくて、本来Build imageを削除できると嬉しいですね。
   - [一応Communityに質問してみました](https://community.cloudflare.com/t/my-pages-project-still-references-build-image-v1-even-though-i-no-longer-use-it/905777)
+    - 追記） すぐ返信来てありがたい。使ってないなら無視して大丈夫とのこと。ほなええか...
   - あとから見てて、どうやらCloudflare PagesはBuild imageが必ず付与される仕組みっぽい？
     - そうだとすると、3年に1度くらいはBuild imageを使ってなくてもバージョンアップのお知らせを受け取ることになりそうですね。
     - 3年に一度ならええかという気持ちと、GitHub Pagesでいいかもしれないという気持ちで揺れる...
