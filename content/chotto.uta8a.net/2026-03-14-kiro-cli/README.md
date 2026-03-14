@@ -76,6 +76,9 @@ mise install
 - AWSのエラーをdocs/planのような一時的なplanファイルに書くときはgit commitしないように気をつけたい
   - account idとか載ったりするのは気分がよくない
   - `ignore-*.md` をgitignoreするようにしてる
+- KiroのhooksがJSONなのが微妙すぎる
+  - コメント書けないし、promptは改行コード入れないとだし
+  - 設定ファイルはJSONであるべきではない！
 - 今回はmodelがautoだったのですが、qwen3系とかだともっとクレジット消費が小さいようでした。どれくらい賢いか気になる
 
 ![modelコマンドの結果](./3.png)
