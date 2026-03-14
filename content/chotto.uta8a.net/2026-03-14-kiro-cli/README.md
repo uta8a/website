@@ -11,6 +11,8 @@ tag:
 changelog:
   - summary: "Initial draft"
     date: "2026-03-14T17:31:47.930+09:00[Asia/Tokyo]"
+  - summary: "miseのエラーについて追記"
+    date: "2026-03-14T18:02:21.300+09:00[Asia/Tokyo]"
 ---
 
 [JAWS-UG朝会 #79 に参加したよ](https://chotto.uta8a.net/note/2026-03-14-jaws-ug-asa-79/) に書いたようにKiro CLIに興味が出たので触ってみました。
@@ -28,6 +30,13 @@ changelog:
 # 使ってみた
 
 devcontainer等の設定はこちら: [try-kiro-cli-on-docker](https://github.com/uta8a/playground/tree/8b9a0e5db14e220a6f6a00ebc0e8f2be9efd95f6/try-kiro-cli-on-docker)
+
+多分試すとmiseのエラーが出るのですが、以下を打てば良いです。(miseはnode, aws-cliの管理で使ってます)
+
+```console
+mise trust
+mise install
+```
 
 - まず何もMCP等の設定を入れずにCDKを使ったアプリケーションを書いてもらう
   - ChatGPTで[仕様書](https://github.com/uta8a/playground/blob/8b9a0e5db14e220a6f6a00ebc0e8f2be9efd95f6/try-kiro-cli-on-docker/docs/plan/1-example-app.old.md)を書いて、Kiro CLIに渡す
