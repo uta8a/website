@@ -11,7 +11,7 @@
   "dependencies": {
     "astro": "^5.17.2",
     "remark-breaks": "^4.0.0",
-    "temporal-polyfill-lite": "^0.2.2",
+    "temporal-polyfill-lite": "^0.3.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
