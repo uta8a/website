@@ -1,7 +1,7 @@
 ---
 type: "note"
 title: "AIエージェントのためのVirtual Monorepoを作っている"
-draft: true
+draft: false
 description: "複数リポジトリをまたぐAIエージェントの作業を、安全に整理して知識として残すためにvmrを作っている話"
 ogp: "ogp-big.webp"
 tag:
@@ -13,6 +13,8 @@ tag:
 changelog:
   - summary: "Initial draft"
     date: "2026-07-25T08:47:58.796+09:00[Asia/Tokyo]"
+  - summary: "レビューを反映して公開"
+    date: "2026-07-25T09:55:56.615+09:00[Asia/Tokyo]"
 ---
 
 最近、AIエージェントにコードを書いてもらうときの作業場について考えています。
@@ -115,8 +117,6 @@ vmr session archive <session>
 # 記録を残すときの安全性
 
 AIエージェントのイベントやtranscriptには、意図せず機密情報が含まれる可能性があります。`vmr` ではHookの値、テスト出力、transcript、URL、エラーを永続化する前にredactする設計にしています。大きすぎる出力はそのまま保存せず、サイズとdigestのmetadataに置き換えます。
-
-Codexから届く `PermissionRequest` は、ほかのHookイベントと同様にredactして記録しますが、`vmr` が承認結果を返すことはありません。また、既存cloneのremoteは初期化時に期待値と一致するか検証し、異なっていても書き換えません。Sessionのarchiveは、未保存の変更があるdirtyなworktreeを検出すると中止します。これらはそれぞれ、Hookを受け取る `internal/codex`、Git操作を扱う `internal/gitutil`、Sessionを管理する `internal/session` に実装しています。
 
 # まだ実装していないもの
 
