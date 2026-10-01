@@ -6,6 +6,8 @@ settings:
 
 importers:
 
+  .: {}
+
   site/chotto.uta8a.net:
     dependencies:
       '@resvg/resvg-js':
